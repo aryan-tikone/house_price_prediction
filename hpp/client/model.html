@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real Estate Price prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="model.js"></script>
+	<link rel="stylesheet" href="model.css">
+	<style>
+		.img {
+  			background-image: url('images/BG_img.jpg');
+  			background-size: cover;
+  /* other styling properties */
+}
+	</style>
+</head>
+<body>
+<div class="img"></div>
+
+<section class="card">
+	
+	<h1 class="heding">Estimate the price </h1>
+<form class="form">
+	<h2>Area (Square Feet)</h2>
+    <input class="area"  type="text" id="uiSqft" class="floatLabel" name="Squareft" value="1000">
+	<h2>BHK</h2>
+	<div class="switch-field">
+		<input type="radio" id="radio-bhk-1" name="uiBHK" value="1"/>
+		<label for="radio-bhk-1">5</label>
+		<input type="radio" id="radio-bhk-2" name="uiBHK" value="2" checked/>
+		<label for="radio-bhk-2">4</label>
+		<input type="radio" id="radio-bhk-3" name="uiBHK" value="3"/>
+		<label for="radio-bhk-3">3</label>
+		<input type="radio" id="radio-bhk-4" name="uiBHK" value="4"/>
+		<label for="radio-bhk-4">2</label>
+		<input type="radio" id="radio-bhk-5" name="uiBHK" value="5"/>
+		<label for="radio-bhk-5">1</label>
+	</div>
+	</form>
+<form class="form">
+	<h2>Bath</h2>
+	<div class="switch-field">
+		<input type="radio" id="radio-bath-1" name="uiBathrooms" value="1"/>
+		<label for="radio-bath-1">1</label>
+		<input type="radio" id="radio-bath-2" name="uiBathrooms" value="2" checked/>
+		<label for="radio-bath-2">2</label>
+		<input type="radio" id="radio-bath-3" name="uiBathrooms" value="3"/>
+		<label for="radio-bath-3">3</label>
+		<input type="radio" id="radio-bath-4" name="uiBathrooms" value="4"/>
+		<label for="radio-bath-4">4</label>
+		<input type="radio" id="radio-bath-5" name="uiBathrooms" value="5"/>
+		<label for="radio-bath-5">5</label>
+	</div>
+		<h2>Location</h2>
+	<div>
+  <select class="location" name="" id="uiLocations">
+    <option value="" disabled="disabled" selected="selected">Choose a Location</option>
+		<option>Electronic City</option>
+        <option>Rajaji Nagar</option>
+  </select>
+</div>
+	<button class="submit" onclick="onClickedEstimatePrice() ; logEvent();" type="button">Estimate Price</button>
+	<div id="uiEstimatedPrice" class="result">	<h2></h2> </div>
+</section>
+</body>
+</html>
+
+<script>
+	function logEvent() {
+	var sqft = parseInt(document.getElementById("uiSqft").value);
+	var bhkElements = document.getElementsByName("uiBHK");
+	var selectedBHK = null;
+
+	for (var i = 0; i < bhkElements.length; i++) {
+		if (bhkElements[i].checked) {
+			let formValue = parseInt(bhkElements[i].value);
+			
+			// Map value to actual BHK (inverted)
+			let valueToBHK = {
+				1: 5,
+				2: 4,
+				3: 3,
+				4: 2,
+				5: 1
+			};
+			selectedBHK = valueToBHK[formValue];
+			break;
+		}
+	}
+
+	if (!sqft || isNaN(sqft) || sqft <= 0 || selectedBHK === null) {
+		alert("Please enter a valid area and select BHK.");
+		return;
+	}
+
+	var validRanges = {
+		1: [400, 700],
+		2: [700, 1000],
+		3: [1000, 1300],
+		4: [1300, 1600],
+		5: [1600, 2000]
+	};
+
+	var range = validRanges[selectedBHK];
+	if (sqft < range[0] || sqft > range[1]) {
+		alert(`${selectedBHK} BHK should have area between ${range[0]} and ${range[1]} sq. ft.`);
+		return;
+	}
+
+	// You can proceed with further logic here...
+}
+
+	</script>
+	
